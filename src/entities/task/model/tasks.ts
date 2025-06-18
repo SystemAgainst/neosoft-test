@@ -1,8 +1,12 @@
 import type { Module } from 'vuex';
 import type { Task } from '@/shared/types/task';
-import { type TaskFilter, TASKS_FILTERS } from '@/entities/task/model/taskFilterTypes.ts';
 import type { RootState } from '@/app/store/types.ts';
-import { tasksApi } from '@/entities/task/api/tasksApi.ts'
+import { TASKS_FILTERS, type TaskFilter } from './taskFilterTypes';
+import { tasksApi } from '../api/tasksApi';
+import {
+  saveTasksToLocalStorage,
+  loadTasksFromLocalStorage,
+} from '@/shared/lib/localStorage';
 
 
 export interface TaskState {
@@ -13,42 +17,53 @@ export interface TaskState {
 export const tasksModule: Module<TaskState, RootState> = {
   namespaced: true,
   state: () => ({
-    tasks: [],
+    tasks: loadTasksFromLocalStorage(),
     filter: TASKS_FILTERS.ALL,
   }),
   mutations: {
     addTask(state, task: Task) {
-      state.tasks.push(task)
+      state.tasks.push(task);
+      saveTasksToLocalStorage(state.tasks);
+    },
+    toggleTask(state, id: number) {
+      const task = state.tasks.find(t => t.id === id);
+      if (task) {
+        task.completed = !task.completed;
+        saveTasksToLocalStorage(state.tasks);
+      }
+    },
+    removeTask(state, id: number) {
+      state.tasks = state.tasks.filter(t => t.id !== id);
+      saveTasksToLocalStorage(state.tasks);
     },
     setFilter(state, filter: TaskFilter) {
-      state.filter = filter
-    },
-    toggleTask(state, taskId: number) {
-      const task = state.tasks.find(t => t.id === taskId)
-      if (task) task.completed = !task.completed
+      state.filter = filter;
     },
   },
   actions: {
     async addTask({ commit }, title: string) {
-      const task = await tasksApi.add(title)
-      commit('addTask', task)
+      const task = await tasksApi.add(title);
+      commit('addTask', task);
+    },
+    toggleTask({ commit }, id: string) {
+      commit('toggleTask', id);
+    },
+    removeTask({ commit }, id: string) {
+      commit('removeTask', id);
     },
     changeFilter({ commit }, filter: TaskFilter) {
-      commit('setFilter', filter)
-    },
-    toggleTask({ commit }, taskId: number) {
-      commit('toggleTask', taskId)
+      commit('setFilter', filter);
     },
   },
   getters: {
     filteredTasks(state) {
       switch (state.filter) {
-        case 'active':
-          return state.tasks.filter(t => !t.completed)
-        case 'completed':
-          return state.tasks.filter(t => t.completed)
+        case TASKS_FILTERS.ACTIVE:
+          return state.tasks.filter(t => !t.completed);
+        case TASKS_FILTERS.COMPLETED:
+          return state.tasks.filter(t => t.completed);
         default:
-          return state.tasks
+          return state.tasks;
       }
     },
   },
