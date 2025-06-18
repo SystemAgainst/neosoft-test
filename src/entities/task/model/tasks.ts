@@ -1,6 +1,7 @@
-import { Module } from 'vuex';
+import type { Module } from 'vuex';
 import type { Task } from '@/shared/types/task';
-import { type TaskFilter, TASKS_FILTERS } from '@/entities/task/model/taskFilterTypes.ts'
+import { type TaskFilter, TASKS_FILTERS } from '@/entities/task/model/taskFilterTypes.ts';
+import type { RootState } from '@/app/store/types.ts';
 
 
 export interface TaskState {
@@ -8,7 +9,7 @@ export interface TaskState {
   filter: TaskFilter;
 }
 
-export const taskModule: Module<TaskState, any> = {
+export const tasksModule: Module<TaskState, RootState> = {
   namespaced: true,
   state: () => ({
     tasks: [],
