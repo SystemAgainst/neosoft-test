@@ -1,39 +1,53 @@
-# .
+Вот переписанный и структурированный `README.md`:
 
-This template should help get you started developing with Vue 3 in Vite.
+````markdown
+# Task List SPA на Vue 3 + TypeScript + Vuex
 
-## Recommended IDE Setup
+Приложение для работы со списком задач: добавление, удаление, переключение статуса, фильтрация. Архитектура построена по FSD (Feature-Sliced Design).
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🚀 Технологии
 
-## Type Support for `.vue` Imports in TS
+- Vue 3
+- TypeScript
+- Vuex 4
+- Vite
+- FSD-архитектура
+- Без UI-фреймворков
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 📁 Структура
 
-## Customize configuration
+- `src/entities/` — бизнес-сущности (например, task)
+- `src/features/` — фичи (add-task, фильтры)
+- `src/widgets/` — крупные блоки (например, список задач)
+- `src/app/` — App.vue, router, store
+- `src/shared/` — общие типы, утилиты, стили
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## 📦 Установка
 
 ```sh
 yarn
-```
+````
 
-### Compile and Hot-Reload for Development
+## 🧪 Запуск проекта в режиме разработки
 
 ```sh
 yarn dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## 📦 Сборка проекта
 
 ```sh
 yarn build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## 🧹 Линтинг
 
 ```sh
 yarn lint
+```
+
+## 🌐 Продакшен
+
+```
+https://neosoft-test.vercel.app/
 ```
