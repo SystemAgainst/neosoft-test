@@ -23,33 +23,33 @@ export const tasksModule: Module<TaskState, RootState> = {
   mutations: {
     addTask(state, task: Task) {
       state.tasks.push(task);
-      saveTasksToLocalStorage(state.tasks);
     },
     toggleTask(state, id: number) {
       const task = state.tasks.find(t => t.id === id);
       if (task) {
         task.completed = !task.completed;
-        saveTasksToLocalStorage(state.tasks);
       }
     },
     removeTask(state, id: number) {
       state.tasks = state.tasks.filter(t => t.id !== id);
-      saveTasksToLocalStorage(state.tasks);
     },
     setFilter(state, filter: TaskFilter) {
       state.filter = filter;
     },
   },
   actions: {
-    async addTask({ commit }, title: string) {
+    async addTask({ commit, state }, title: string) {
       const task = await tasksApi.add(title);
       commit('addTask', task);
+      saveTasksToLocalStorage(state.tasks);
     },
-    toggleTask({ commit }, id: string) {
+    toggleTask({ commit, state }, id: string) {
       commit('toggleTask', id);
+      saveTasksToLocalStorage(state.tasks);
     },
-    removeTask({ commit }, id: string) {
+    removeTask({ commit, state }, id: string) {
       commit('removeTask', id);
+      saveTasksToLocalStorage(state.tasks);
     },
     changeFilter({ commit }, filter: TaskFilter) {
       commit('setFilter', filter);
