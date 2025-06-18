@@ -6,7 +6,7 @@ let tasks: Task[] = [
   { id: 2, title: 'Второе дело', completed: true }
 ];
 
-const delay = (ms = 1000) => new Promise(res => setTimeout(res, ms));
+const delay = (ms = 500) => new Promise(res => setTimeout(res, ms));
 
 export const tasksApi = {
   async getAll() {

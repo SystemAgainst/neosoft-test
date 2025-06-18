@@ -3,6 +3,7 @@
   --color-text: #2c3e50;
   --color-border: #ddd;
   --color-border-hover: #aaa;
+  --color-accent: #2ecc71;
 }
 
 @media (prefers-color-scheme: dark) {
